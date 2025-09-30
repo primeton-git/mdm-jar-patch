@@ -12,7 +12,5 @@ SCRIPT_DIR="$(cd "$(dirname "${0}")" && pwd)"
 export BUG_NUMBER=424
 export PATCH_TIMESTAMP=20250917
 
-set -x
-
 # "${SCRIPT_DIR}/mdm-patch.sh" "${SCRIPT_DIR}/bug/${BUG_NUMBER}.txt"
 "${SCRIPT_DIR}/mdm-build.sh"
