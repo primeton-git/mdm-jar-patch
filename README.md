@@ -19,7 +19,7 @@
 
 - `git show --name-only HEAD > bug/{BUG_NUMBER}.txt`
 - `git show --name-only ${HASH_ID} > bug/{BUG_NUMBER}.txt`
-- 
+
 获取变更文件列表后，开发者可以按实际需要进行删减，此外变更描述文件内容支持注释行和空行。 e.g.
 ```text
 # MDMWH-424, 20250917 -- New feature: batch op for OpenApi
