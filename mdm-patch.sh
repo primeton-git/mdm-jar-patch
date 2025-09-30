@@ -113,8 +113,8 @@ for f in `find "${TEMP_DIR}" -type f -name '*.txt'`; do
 done
 
 if [[ "${PATCH_OUTPUT_ZIP}" == "yes" ]] && [[ -n "${PATCH_OUTPUT_DIR}" ]]; then
-  bugZip="MDMWH-${BUG_NUMBER}-SERVER.zip"
-  cd "${PATCH_OUTPUT_DIR}/.."
+  cd "${PATCH_OUTPUT_DIR}"
+  bugZip="../MDMWH-${BUG_NUMBER}-SERVER.zip"
   [[ -f "./${bugZip}" ]] && rm -f "${bugZip}"
   zip -r "${bugZip}" . \
     && md5sum "${bugZip}" > "${bugZip}.md5" \
