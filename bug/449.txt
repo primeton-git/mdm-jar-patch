@@ -1,0 +1,4 @@
+# BUG, excel data import -- sheet name limit 31
+
+mdm-server/mdm-core/src/com/primeton/mdm/management/spi/AbstractMDMDataModelTableHandler.java
+mdm-server/mdm-core/src/com/primeton/mdm/management/spi/MDMBizDataExcelHandler.java
