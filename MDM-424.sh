@@ -1,9 +1,18 @@
 #!/bin/bash
 
+# @author CHINESE (mailto: lizw@primeton.com)
+# @version 1.0.0 2025-09-17
+# @description The patch tool for MDM server.
+
 SCRIPT_DIR="$(cd "$(dirname "${0}")" && pwd)"
 
+# define artifact source
+#export MAVEN_REPO_URL="http://192.168.2.1:8081/nexus/service/local/repositories/Primeton_Product_Stage/content"
+#export MAVEN_REPO_URL="${HOME}/.m2/repository"
+export MDM_SOURCE_PATH="/mnt/d/primeton/mdm/server-7.3/mdm-server"
+
+
 export BUG_NUMBER="424"
-#export MDM_SOURCE_PATH="/mnt/d/primeton/mdm/server-7.3/mdm-server"
 export PATCH_OUTPUT_DIR="${SCRIPT_DIR}/target/${BUG_NUMBER}"
 export PATCH_OUTPUT_ZIP="yes"
 #export PATCH_TIMESTAMP=$(date +%Y%m%d)

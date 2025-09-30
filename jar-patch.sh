@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # @author CHINESE (mailto: lizw@primeton.com)
-# @version 1.0.0 2024-08-20
+# @version 1.0.0 2025-09-17
 # @description The patch tool for MDM server.
 
 set -e
