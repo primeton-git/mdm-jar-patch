@@ -10,11 +10,14 @@ set -e
 # 使用方法：./extract_classes.sh sources.txt mdm-core.jar
 
 # 参数校验
-if [ $# -ne 2 ] || [ ! -f "$1" ] || [ ! -f "$2" ]; then
+if [[ $# -ne 2 ]]; then
     echo "Usage: $0 <java_source_list> <jar_file>"
     echo "Example: $0 sources.txt mdm-core.jar"
     exit 1
 fi
+
+[[ -f "$1" ]] || { echo "[ERROR] $1 not found."; exit 1; }
+[[ -f "$2" ]] || { echo "[ERROR] $2 not found."; exit 1; }
 
 # 输入参数
 JAVA_SOURCES="$1"

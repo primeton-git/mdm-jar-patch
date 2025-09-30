@@ -9,14 +9,16 @@ SCRIPT_DIR="$(cd "$(dirname "${0}")" && pwd)"
 set -e
 
 # 参数校验
-if [ $# -ne 1 ] || [ ! -f "$1" ]; then
-    echo "Usage: $0 <mdm_java_source_list>"
-    echo "e.g.   $0 ./git-change-sources.txt"
+if [ $# -ne 1 ]; then
+    echo "Usage: $0 <mdm_java_source_list_file>"
+    echo "e.g.   $0 ./git-changes-985.txt"
     exit 1
 fi
 
+
 # 输入参数
-JAVA_SOURCES="$1"
+changesFile="$1"
+[[ -f "${changesFile}" ]] || { echo "[ERROR] ${changesFile} not found."; exit 1; }
 TEMP_DIR=$(mktemp -d)
 echo "TEMP_DIR=${TEMP_DIR}"
 
@@ -37,29 +39,30 @@ while IFS= read -r line; do
       JAVA_SRC_PATH=${line#*/*/*/*}
       echo "${JAVA_SRC_PATH}" >> "${TEMP_DIR}/${MDM_MODULE}.txt"
     fi
-done < "${JAVA_SOURCES}"
+done < "${changesFile}"
 
 #declare -A dict=([name]="Alice" [age]=28 [city]="New York")
 # ARTIFACT_SOURCE="path"
 if [[ -z "${ARTIFACT_SOURCE}" ]] && [[ -n "${MAVEN_REPO_PATH}" ]] && [[ -d "${MAVEN_REPO_PATH}" ]]; then
-    echo "[INFO ] MAVEN_REPO_PATH=${MAVEN_REPO_PATH}"
+    echo "[INFO ] use local maven repository, MAVEN_REPO_PATH=${MAVEN_REPO_PATH}"
     ARTIFACT_SOURCE="maven"
 fi
 if [[ -z "${ARTIFACT_SOURCE}" ]] && [[ -n "${MAVEN_REPO_URL}" ]]; then
-    status_code=$(curl -s -o /dev/null -w "%{http_code}" "${MAVEN_REPO_URL}")
+    # curl test
+    status_code=$(curl -s -o /dev/null -w "%{http_code}" "${MAVEN_REPO_URL}/com/primeton/mdm/mdm-core/${MDM_VERSION}/mdm-core-${MDM_VERSION}.pom")
     if [ $status_code -ge 400 ]; then
         echo "[ERROR] ${MAVEN_REPO_URL} unavailable, STATUS_CODE=${status_code}"
     else
-      echo "[INFO ] MAVEN_REPO_URL=${MAVEN_REPO_URL}"
+      echo "[INFO ] use remote maven repository, MAVEN_REPO_URL=${MAVEN_REPO_URL}"
       ARTIFACT_SOURCE="url"
     fi
 fi
 if [[ -z "${ARTIFACT_SOURCE}" ]] && [[ -n "${MDM_SOURCE_PATH}" ]] && [[ -d "${MDM_SOURCE_PATH}" ]]; then
-    echo "[INFO ] MDM_SOURCE_PATH=${MDM_SOURCE_PATH}"
+    echo "[INFO ] use local mdm-server source (target/) directory, MDM_SOURCE_PATH=${MDM_SOURCE_PATH}"
     ARTIFACT_SOURCE="src"
 fi
 if [[ -z "${ARTIFACT_SOURCE}" ]] && [[ -n "${ARTIFACT_PATH}" ]] && [[ -d "${ARTIFACT_PATH}" ]]; then
-  echo "[INFO ] ARTIFACT_PATH=${ARTIFACT_PATH}"
+  echo "[INFO ] use default artifact path, ARTIFACT_PATH=${ARTIFACT_PATH}"
   ARTIFACT_SOURCE="artifact"
 fi
 export ARTIFACT_SOURCE="${ARTIFACT_SOURCE:-default}" # Default use current directory: ${PWD}/artifacts
