@@ -46,7 +46,7 @@ if [[ -z "${ARTIFACT_SOURCE}" ]] && [[ -n "${MAVEN_REPO_PATH}" ]] && [[ -d "${MA
     ARTIFACT_SOURCE="maven"
 fi
 if [[ -z "${ARTIFACT_SOURCE}" ]] && [[ -n "${MAVEN_REPO_URL}" ]]; then
-    status_code=$(curl -s -o /dev/null -w "%{http_code}" $URL)
+    status_code=$(curl -s -o /dev/null -w "%{http_code}" "${MAVEN_REPO_URL}")
     if [ $status_code -ge 400 ]; then
         echo "[ERROR] ${MAVEN_REPO_URL} unavailable, STATUS_CODE=${status_code}"
     else
@@ -77,7 +77,7 @@ getArtifactFile() {
       [[ -d "${TEMP_DIR}/artifacts" ]] || mkdir -p "${TEMP_DIR}/artifacts"
       artifactFile="${TEMP_DIR}/artifacts/${artifactId}-${MDM_VERSION}.jar"
       echo "[INFO ] Download ${artifactURL} => ${artifactFile}"
-      curl "${artifactURL}" -o "${artifactFile}"
+      curl -s -o "${artifactFile}" "${artifactURL}"
       ;;
     "src")
       # e.g. mdm-core-7.3.0.jar
