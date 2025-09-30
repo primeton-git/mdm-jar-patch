@@ -25,10 +25,10 @@ TARGET_JAR="$2"
 [[ -n "${PATCH_TIMESTAMP}" ]] || PATCH_TIMESTAMP="$(date +%Y%m%d)"
 TEMP_DIR=$(mktemp -d)
 echo "TEMP_DIR=${TEMP_DIR}"
-OUTPUT_DIR="${TEMP_DIR}/output"
+OUTPUT_TMP_DIR="${TEMP_DIR}/output"
 
 # 创建临时目录结构
-mkdir -p "${OUTPUT_DIR}"
+mkdir -p "${OUTPUT_TMP_DIR}"
 
 # 解压目标JAR到临时目录（保留完整路径）
 echo "[INFO ] Extracting JAR contents with unzip..."
@@ -45,7 +45,7 @@ while IFS= read -r SOURCE_PATH; do
       echo "[INFO ] Processing main class: ${CLASS_FILE}"
       find "${TEMP_DIR}" -type f -path "*/${CLASS_FILE}" -print0 | while IFS= read -r -d '' FILE; do
           RELATIVE_PATH="${FILE#${TEMP_DIR}/}"
-          DEST_PATH="${OUTPUT_DIR}/${RELATIVE_PATH}"
+          DEST_PATH="${OUTPUT_TMP_DIR}/${RELATIVE_PATH}"
           mkdir -p "$(dirname "${DEST_PATH}")"
           cp -v "${FILE}" "${DEST_PATH}"
       done
@@ -57,14 +57,14 @@ while IFS= read -r SOURCE_PATH; do
       echo "[INFO ] Extracting inner classes for: ${BASE_CLASS}"
       find "${TEMP_DIR}" -type f -path "${INNER_PATTERN}" -print0 | while IFS= read -r -d '' FILE; do
           RELATIVE_PATH="${FILE#${TEMP_DIR}/}"
-          DEST_PATH="${OUTPUT_DIR}/${RELATIVE_PATH}"
+          DEST_PATH="${OUTPUT_TMP_DIR}/${RELATIVE_PATH}"
           mkdir -p "$(dirname "${DEST_PATH}")"
           cp -v "${FILE}" "${DEST_PATH}"
       done
 
     else # 非class文件则直接拷贝就行（暂时不考虑EOS逻辑流之类的资源）
       if [[ -f "${TEMP_DIR}/${SOURCE_PATH}" ]]; then
-        DEST_PATH=$(dirname "${OUTPUT_DIR}/${SOURCE_PATH}")
+        DEST_PATH=$(dirname "${OUTPUT_TMP_DIR}/${SOURCE_PATH}")
         [[ -d "${DEST_PATH}" ]] || mkdir -p "${DEST_PATH}"
         cp -f "${TEMP_DIR}/${SOURCE_PATH}" "${DEST_PATH}"
       else
@@ -87,11 +87,14 @@ fi
 
 # 压缩临时目录为ZIP格式JAR文件（保留目录结构）
 echo "[INFO ] Creating new ZIP archive: ${NEW_JAR}"
-cd "${OUTPUT_DIR}" || exit
+cd "${OUTPUT_TMP_DIR}" || exit
 [[ -f "${NEW_JAR}" ]] && rm -f "${NEW_JAR}"
 zip -r0 "${NEW_JAR}" . --exclude "*.tmp" --exclude "*.log"
-which md5sum && echo "[INFO ] Calculating MD5 checksum for: ${NEW_JAR}" && md5sum "${NEW_JAR}" > "${NEW_JAR}.md5"
-which sha256sum && echo "[INFO ] Calculating SHA256 checksum for: ${NEW_JAR}" && sha256sum "${NEW_JAR}" > "${NEW_JAR}.sha256sum"
+
+echo "[INFO ] Calculating MD5 checksum for: ${NEW_JAR}"
+md5sum "${NEW_JAR}" > "${NEW_JAR}.md5"
+echo "[INFO ] Calculating SHA256 checksum for: ${NEW_JAR}"
+sha256sum "${NEW_JAR}" > "${NEW_JAR}.sha256sum"
 
 # 清理临时文件
 echo "[INFO ] Cleaning up temporary files... ${TEMP_DIR}"

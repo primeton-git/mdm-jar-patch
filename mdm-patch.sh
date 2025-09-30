@@ -81,10 +81,6 @@ getArtifactFile() {
       artifactFile="${TEMP_DIR}/artifacts/${artifactId}-${MDM_VERSION}.jar"
       curl -s -o "${artifactFile}" "${artifactURL}"
       ;;
-    "src")
-      # e.g. mdm-core-7.3.0.jar
-      artifactFile="${MDM_SOURCE_PATH}/${artifactId}/target/${artifactId}-${MDM_VERSION}.jar"
-      ;;
     "artifact")
       # e.g. mdm-core-7.3.0.jar
       artifactFile="${ARTIFACT_PATH}/${artifactId}-${MDM_VERSION}.jar"
@@ -92,6 +88,10 @@ getArtifactFile() {
     "default")
       # e.g. mdm-core-7.3.0.jar
       artifactFile="${PWD}/artifacts/${artifactId}-${MDM_VERSION}.jar"
+      ;;
+    "src")
+      # e.g. mdm-core-7.3.0.jar
+      artifactFile="${MDM_SOURCE_PATH}/${artifactId}/target/${artifactId}-${MDM_VERSION}.jar"
       ;;
   esac
   # use echo as function return
