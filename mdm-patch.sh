@@ -20,7 +20,7 @@ fi
 changesFile="$1"
 [[ -f "${changesFile}" ]] || { echo "[ERROR] ${changesFile} not found."; exit 1; }
 TEMP_DIR=$(mktemp -d)
-echo "TEMP_DIR=${TEMP_DIR}"
+echo "[INFO ] TEMP_DIR=${TEMP_DIR}"
 
 # 全局参数设置
 export MDM_VERSION="${MDM_VERSION:-7.3.0}"
@@ -98,7 +98,7 @@ getArtifactFile() {
   echo "${artifactFile}"
 }
 
-ls -al "${TEMP_DIR}"
+# ls -al "${TEMP_DIR}"
 
 for f in `find "${TEMP_DIR}" -type f -name '*.txt'`; do
   echo "[INFO ] git-change-file: $f, content: "
