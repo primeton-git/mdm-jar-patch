@@ -13,5 +13,10 @@ export BUG_NUMBER="985"
 # 这里先选择(4)从源代码Maven编译输出目录target/下获取JAR文件
 export MDM_SOURCE_PATH="/mnt/d/primeton/mdm/server-7.3/mdm-server"
 export PATCH_OUTPUT_DIR="${SCRIPT_DIR}/target/${BUG_NUMBER}"
+# 压缩补丁文件集合生成ZIP包
+export PATCH_OUTPUT_ZIP="yes"
+#export PATCH_TIMESTAMP=$(date +%Y%m%d)
+export PATCH_TIMESTAMP=20250918
+
 
 "${SCRIPT_DIR}/mdm-patch.sh" "${SCRIPT_DIR}/bug/${BUG_NUMBER}.txt"

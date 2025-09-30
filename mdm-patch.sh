@@ -108,6 +108,17 @@ for f in `find "${TEMP_DIR}" -type f -name '*.txt'`; do
   ${SCRIPT_DIR}/jar-patch.sh "${f}" "${jarFile}"
 done
 
+if [[ "${PATCH_OUTPUT_ZIP}" == "yes" ]] && [[ -n "${PATCH_OUTPUT_DIR}" ]]; then
+  bugZip="MDMWH-${BUG_NUMBER}-SERVER.zip"
+  cd "${PATCH_OUTPUT_DIR}/.."
+  [[ -f "./${bugZip}" ]] && rm -f "${bugZip}"
+  zip -r "${bugZip}" . \
+    && md5sum "${bugZip}" > "${bugZip}.md5" \
+    && sha256sum "${bugZip}" > "${bugZip}.sha256"
+  cd -
+fi
+
 # 清理临时文件
 echo "[INFO ] Cleaning up temporary files... ${TEMP_DIR}"
 rm -rf "${TEMP_DIR}"
+
