@@ -36,6 +36,11 @@ mdm-server/mdm-core/src/com/primeton/mdm/management/vo/HandleResult.java
 
 ```shell
 # export MDM_VERSION=7.3.0
+
+# edit MDM-bug.sh append line: ["424"]="20250917"
+./MDM-bug.sh 424
+
+# or
 export BUG_NUMBER=424
 export PATCH_TIMESTAMP=20250917
 ./mdm-build.sh
