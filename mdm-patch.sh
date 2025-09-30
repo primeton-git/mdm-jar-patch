@@ -76,7 +76,7 @@ getArtifactFile() {
       artifactURL="${MAVEN_REPO_URL}/com/primeton/mdm/${artifactId}/${MDM_VERSION}/${artifactId}-${MDM_VERSION}.jar"
       [[ -d "${TEMP_DIR}/artifacts" ]] || mkdir -p "${TEMP_DIR}/artifacts"
       artifactFile="${TEMP_DIR}/artifacts/${artifactId}-${MDM_VERSION}.jar"
-      curl -s -o "${artifactFile}" "${artifactURL}"
+      curl -o "${artifactFile}" "${artifactURL}"
       ;;
     "src")
       # e.g. mdm-core-7.3.0.jar
