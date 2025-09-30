@@ -1,0 +1,13 @@
+# comment line and empty line are allowed
+# git show --name-only HEAD > bug/985.txt
+
+
+mdm-server/mdm-core/src/com/primeton/mdm/management/spi/AbstractMDMDataModelTableHandler.java
+mdm-server/mdm-core/src/com/primeton/mdm/management/spi/MDMBizDataExcelHandler.java
+
+mdm-server/mdm-core/src/com/primeton/mdm/core/dm/FieldConf.java
+# mdm-server/mdm-core/src/com/primeton/mdm/core/dm/FormConf.java
+
+# i18n patch
+mdm-server/mdm-core/src/META-INF/resources/i18n/common/Messages.properties
+mdm-server/mdm-core/src/META-INF/resources/i18n/common/Messages_zh.properties
