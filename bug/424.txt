@@ -1,5 +1,7 @@
 # MDMWH-424, 20250917 -- New feature: batch op for OpenApi
 mdm-server/mdm-core/src/com/primeton/mdm/core/client/API.java
+# APIInvokeHandler unmodified, but it reference changed constants API#ROUTE_0 API#ROUTE_1
+mdm-server/mdm-core/src/com/primeton/mdm/core/client/APIInvokeHandler.java
 mdm-server/mdm-core/src/com/primeton/mdm/management/controller/MDM8DataServiceController.java
 mdm-server/mdm-core/src/com/primeton/mdm/management/service/v8/BizDataService.java
 mdm-server/mdm-core/src/com/primeton/mdm/management/util/MDMDataModelTableHelper.java
