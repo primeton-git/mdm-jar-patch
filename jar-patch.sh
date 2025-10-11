@@ -92,9 +92,9 @@ cd "${OUTPUT_TMP_DIR}" || exit
 zip -r0 "${NEW_JAR}" . --exclude "*.tmp" --exclude "*.log"
 
 echo "[INFO ] Calculating MD5 checksum for: ${NEW_JAR}"
-md5sum "${NEW_JAR}" > "${NEW_JAR}.md5"
+md5sum --tag "${NEW_JAR}" > "${NEW_JAR}.md5"
 echo "[INFO ] Calculating SHA256 checksum for: ${NEW_JAR}"
-sha256sum "${NEW_JAR}" > "${NEW_JAR}.sha256sum"
+sha256sum --tag "${NEW_JAR}" > "${NEW_JAR}.sha256sum"
 
 # 清理临时文件
 echo "[INFO ] Cleaning up temporary files... ${TEMP_DIR}"

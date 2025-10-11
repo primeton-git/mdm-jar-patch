@@ -117,8 +117,8 @@ if [[ "${PATCH_OUTPUT_ZIP}" == "yes" ]] && [[ -n "${PATCH_OUTPUT_DIR}" ]]; then
   bugZip="../MDMWH-${BUG_NUMBER}-SERVER.zip"
   [[ -f "./${bugZip}" ]] && rm -f "${bugZip}"
   zip -r "${bugZip}" . \
-    && md5sum "${bugZip}" > "${bugZip}.md5" \
-    && sha256sum "${bugZip}" > "${bugZip}.sha256"
+    && md5sum --tag "${bugZip}" > "${bugZip}.md5" \
+    && sha256sum --tag "${bugZip}" > "${bugZip}.sha256"
   cd -
 fi
 
